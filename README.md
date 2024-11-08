@@ -15,4 +15,4 @@ kesl-control --set-settings 3 ScanPlainMail=yes
 kesl-control --set-settings 3 ScanArchived=yes
 kesl-control --set-settings 3 ScanSfxArchived=yes</pre>
 
-4. Copy this script to /usr/local/bin directory
+4. Copy script pmg-custom-check to /usr/local/bin directory
