@@ -1,0 +1,32 @@
+#!/bin/bash
+
+if [ "$#" -ne 2 ]; then
+  echo "usage: $0 APIVERSION QUEUEFILENAME" 1>&2
+  exit 1
+fi
+
+apiver="$1"
+shift
+
+if [ "$apiver" != "v1" ]; then
+  echo "wrong APIVERSION: $apiver" 1>&2
+  exit 2
+fi
+
+queue_file="$1"
+
+logger "pmg-custom-check: $1"
+echo "v1"
+
+TIME=$(date +%s)
+RANDNAME=$(openssl rand -hex 16)
+ln $queue_file /tmp/$RANDNAME
+/usr/bin/kesl-control --scan-file /tmp/$RANDNAME --action skip > /dev/null
+RES=$?
+rm -f /tmp/$RANDNAME
+[[ $RES -ne 72 ]] && echo "OK" && exit
+REPORT=$(/usr/bin/kesl-control -E --query "EventType == 'ThreatDetected' and TaskType == 'ODS' and Date >= '$TIME' and FileName like '/tmp/$RANDNAME%'")
+VIRNAME=$(echo $REPORT | grep -Po '(?<= DetectName=)(\S+)' | tail -n1)
+VIRSURE=$(echo $REPORT | grep -Po '(?<= DetectCertainty=)(\S+)' | tail -n1)
+VIRTYPE=$(echo $REPORT | grep -Po '(?<= DetectType=)(\S+)' | tail -n1)
+echo "VIRUS: $VIRTYPE($VIRSURE):$VIRNAME"
