@@ -7,7 +7,7 @@ Required steps
 
 2. Turn off all KESL tasks related to persistent protection
 
-3. Enable mail and archives scan in KESL for on-demand scan and set action for infected files to skip:
+3. Enable mail and archives processing in KESL for on-demand scan and set action for infected files to skip:
 
 <pre>kesl-control --set-settings 3 FirstAction=skip
 kesl-control --set-settings 3 ScanMailBases=yes
