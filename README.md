@@ -1,5 +1,5 @@
 # pmg-kesl-integration
-Script for integrate Kaspersky Endpoint Security (Linux) as antivirus engine in Proxmox Mail Gatewat
+Script for integrate Kaspersky Endpoint Security (Linux) as antivirus engine in Proxmox Mail Gateway
 
 Required steps
 
